@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>	
+<body>
+    <table border="2">
+    <tr>
+        <th>Attendance ID</th>
+        <th>Attendee Type</th>
+        <th>Attendee ID</th>
+        <th>Timing In</th>
+        <th>Timing Out</th>
+        <th>Attendance Date</th>
+        <th>Action</th>
+    </tr>
+    {% for data in datas %}
+    <tr>
+        <td>{{data[0]}}</td>
+        <td>{{data[1]}}</td>
+        <td>{{data[2]}}</td>
+        <td>{{data[3]}}</td>
+        <td>{{data[4]}}</td>
+        <td>{{data[5]}}</td>
+        <td><a href="/delete/{{data[0]}}">del</a> / <a href="/update/{{data[0]}}">Update</a></td>
+    </tr>
+    {% endfor %}
+
+    </table>
+</body>
+</html>

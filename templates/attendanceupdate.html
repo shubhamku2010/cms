@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Attendance Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .form-container h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5cb85c;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Course Attendance</h2>
+    <form  action="/update/{{datas[0]}}" method="POST">
+       
+        <div class="form-group">
+            <label for="attendee_type">Attendee Type:</label>
+            <select id="attendee_type" name="attendee_type" value="{{datas[1]}}" required>
+                <option value="STUDENT" {% if datas[1]=='STUDENT' %} selected  {%endif%}>Student</option>
+                <option value="TEACHER" {% if datas[1]=='TEACHER' %} selected  {%endif%}>Teacher</option>
+                <option value="STAFF" {% if datas[1]=='STAFF' %} selected  {%endif%}>Staff</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="attendee_id">Attendee ID:</label>
+            <input type="text" id="attendee_id" name="attendee_id" value="{{datas[2]}}" required>
+        </div>
+        <div class="form-group">
+            <label for="timingIn"> Checkin / Out </label>
+            <select name="type" id="" value="{{datas[3]}}">
+                <option value="in" {% if datas[3]=='in' %} selected  {%endif%}>In</option>
+                <option value="out" {% if datas[3]=='out' %} selected  {%endif%}>Out</option>
+            </select>
+        </div>
+      
+        <div class="form-group">
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
