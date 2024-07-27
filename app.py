@@ -252,6 +252,8 @@ def  teachersdelete(param,id):
    if param=="delete":
         delete("enquiry", "form_id", id)
         return redirect("/teacherstable")
+   
+
 
 @app.route("/update/<id>" ,methods=['GET','POST'])
 def updateattendence(id):
@@ -261,7 +263,7 @@ def updateattendence(id):
             values=(id)
             cur.execute(sql,values)
             data=cur.fetchone()
-        return render_template("attendenceupdate.html",datas=data)
+        return render_template("attendanceupdate.html",datas=data)
        
     status=attendanceupdate(id)
     if status==1:
