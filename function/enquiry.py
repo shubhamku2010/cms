@@ -3,7 +3,7 @@ import pymysql
 
 conn = pymysql.connect(host="localhost" , user='root' , password='' , database='cms')
 
-def enquiry_add():
+def enquiry_add(request):
     formId=request.form.get("form_id")
     studentName=request.form.get("student_name")
     fatherName=request.form.get("father_name")

@@ -6,7 +6,7 @@ import datetime
 
 conn = pymysql.connect(host="localhost" , user='root' , password='' , database='cms')
 
-def students_add():
+def students_add(request):
     studentId=request.form.get("student_id")
     firstName=request.form.get("first_name")
     lastName=request.form.get("last_name")

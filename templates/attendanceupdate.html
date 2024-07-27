@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Attendance Form</title>
+    <title>Attendance Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -32,7 +32,7 @@
             display: block;
             margin-bottom: 5px;
         }
-        .form-group input, .form-group select {
+        .form-group input, .form-group select,.timing {
             width: 100%;
             padding: 8px;
             box-sizing: border-box;
@@ -48,6 +48,7 @@
             color: white;
             font-size: 16px;
             cursor: pointer;
+            margin-top: 10px;
         }
         .form-group button:hover {
             background-color: #4cae4c;
@@ -58,28 +59,26 @@
 
 <div class="form-container">
     <h2>Course Attendance</h2>
-    <form  action="/update/{{datas[0]}}" method="POST">
+    <form action="/update/{{datas[0]}}" method='POST'>
        
         <div class="form-group">
-            <label for="attendee_type">Attendee Type:</label>
-            <select id="attendee_type" name="attendee_type" value="{{datas[1]}}" required>
-                <option value="STUDENT" {% if datas[1]=='STUDENT' %} selected  {%endif%}>Student</option>
-                <option value="TEACHER" {% if datas[1]=='TEACHER' %} selected  {%endif%}>Teacher</option>
-                <option value="STAFF" {% if datas[1]=='STAFF' %} selected  {%endif%}>Staff</option>
+            <label for="attendeeType">Attendee Type</label>
+            <select id="attendeeType" name="attendeeType" value= required>
+                <option value="student" value=student {% if datas[1]=='student' %} selected  {%endif%}>Student</option>
+                <option value="teacher" value=teacher {% if datas[1]=='teacher' %} selected  {%endif%}>Teacher</option>
+                <option value="staff"  value=teacher {% if datas[1]=='staff' %} selected  {%endif%}>Staff</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="attendee_id">Attendee ID:</label>
-            <input type="text" id="attendee_id" name="attendee_id" value="{{datas[2]}}" required>
+            <label for="attendeeId">Attendee ID</label>
+            <input type="text" id="attendeeId" name="attendeeId" value={{datas[2]}} required>
         </div>
-        <div class="form-group">
-            <label for="timingIn"> Checkin / Out </label>
-            <select name="type" id="" value="{{datas[3]}}">
-                <option value="in" {% if datas[3]=='in' %} selected  {%endif%}>In</option>
-                <option value="out" {% if datas[3]=='out' %} selected  {%endif%}>Out</option>
-            </select>
-        </div>
-      
+        <select name="type" id="" class="timing">
+            <option value="in" {% if datas[3]=='in' %} selected  {%endif%}>In</option>
+            <option value="out" {% if datas[3]=='out' %} selected  {%endif%}>Out</option>
+        </select>
+        
+       
         <div class="form-group">
             <button type="submit">Submit</button>
         </div>

@@ -10,6 +10,8 @@ from function.students import students_add
 from function.teachers import teachers_add
 from function.attendance import attendanceupdate
 
+from function.delete import conn,delete
+
 conn = pymysql.connect(host="localhost" , user='root' , password='' , database='cms')
 
 
@@ -168,7 +170,7 @@ def enquirytable():
     return render_template("enquirytable.html" , datas=data)
 
 
-@app.route("/gurdianstable")
+@app.route("/guardianstable")
 def gurdianstable():
     with conn.cursor() as cur:
         sql = "select * from guardians"
@@ -204,102 +206,71 @@ def teacherstable():
     return render_template("teacherstable.html" , datas=data)
 
 
-@app.route("/delete/<id>")
-def attendancedelete(id):
-    with conn.cursor() as cur:
-        sql="delete from attendance where attendance_id=%s"
-        value = (id)
-        cur.execute(sql,value)
+@app.route("/attendancetable/<param>/<id>")
+def attendancedelete(param, id):
+    if param=="delete":
+        delete("attendance", "attendance_id ", id)
         return redirect("/attendancetable")
     
 
 
     
 
-@app.route("/delete/<id>")
-def  coursesdelete(id):
-   
-    with conn.cursor() as cur:
-        sql="delete from courses where class_id=%s"
-        values=(id)
-
-
-        cur.execute(sql,values)
+@app.route("/coursestable/<param>/<id>")
+def  coursesdelete(param,id):
+   if param=="delete":
+        delete("courses", "course_id ", id)
         return redirect("/coursestable")
     
 
-@app.route("/delete/<id>")
-def  enquirydelete(id):
-   
-    with conn.cursor() as cur:
-        sql="delete from enquiry_forms where class_id=%s"
-        values=(id)
-
-
-        cur.execute(sql,values)
+@app.route("/enquirytable/<param>/<id>")
+def  enquirydelete(param,id):
+   if param=="delete":
+        delete("enquiry", "form_id", id)
         return redirect("/enquirytable")
 
-@app.route("/delete/<id>")
-def  guardiansdelete(id):
-   
-    with conn.cursor() as cur:
-        sql="delete from guardians where class_id=%s"
-        values=(id)
-
-
-        cur.execute(sql,values)
+@app.route("/guardianstable/<param>/<id>")
+def  guardiansdelete(param,id):
+   if param=="delete":
+        delete("enquiry", "form_id", id)
         return redirect("/guardianstable")
 
-@app.route("/delete/<id>")
-def  staffdelete(id):
-   
-    with conn.cursor() as cur:
-        sql="delete from staff where class_id=%s"
-        values=(id)
-
-
-        cur.execute(sql,values)
+@app.route("/stafftable/<param>/<id>")
+def  staffdelete(param,id):
+   if param=="delete":
+        delete("enquiry", "form_id", id)
         return redirect("/stafftable")
 
-@app.route("/delete/<id>")
-def  studentsdelete(id):
-   
-    with conn.cursor() as cur:
-        sql="delete from students where class_id=%s"
-        values=(id)
-
-
-        cur.execute(sql,values)
+@app.route("/studentstable/<param>/<id>")
+def  studentsdelete(param,id):
+   if param=="delete":
+        delete("enquiry", "form_id", id)
         return redirect("/studentstable")
 
-@app.route("/delete/<id>")
-def  teachersdelete(id):
-   
-    with conn.cursor() as cur:
-        sql="delete from teachers where class_id=%s"
-        values=(id)
-
-
-        cur.execute(sql,values)
+@app.route("/teacherstable/<param>/<id>")
+def  teachersdelete(param,id):
+   if param=="delete":
+        delete("enquiry", "form_id", id)
         return redirect("/teacherstable")
 
-@app.route("/update/<id>", methods=["GET", "POST"])
-def update_attendance(id):
-    if request.method == "GET":
+@app.route("/update/<id>" ,methods=['GET','POST'])
+def updateattendence(id):
+    if request.method=='GET':
         with conn.cursor() as cur:
-            sql = "SELECT * FROM attendance WHERE attendance_id = %s"
-            cur.execute(sql, (id))
-            data = cur.fetchone()
-            print(data)
-        return render_template("attendanceupdate.html", datas=data)
+            sql="select * from attendance where attendance_id=%s"
+            values=(id)
+            cur.execute(sql,values)
+            data=cur.fetchone()
+        return render_template("attendenceupdate.html",datas=data)
+       
+    status=attendanceupdate(id)
+    if status==1:
+               
+        return redirect("/attendancetable") 
     
-    status = attendanceupdate(id)
-    if status == 1:
-        return redirect("/attendancetable")
-    else:
-        return "invalid"
+
+    else:   
+        return "INVALID"
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-

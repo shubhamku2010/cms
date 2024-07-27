@@ -59,49 +59,58 @@ def attendance_add(req):
 
 
 
-def attendanceupdate(attendance_id):
+def attendanceupdate(id):
+   
+
     
-    attendeeType=request.form.get("attendee_type")
-    attendee_id=int(request.form.get("attendee_id"))
+    
+    attendeeType=request.form.get("attendeeType")
+    attendee_id=int(request.form.get("attendeeId"))
     type=request.form.get("type")
     flag=0
 
-
-    current_time = datetime.datetime.now()
+    time=datetime.datetime.now()
 
     with conn.cursor() as cur:
-        if attendeeType == "STUDENT":
+        if attendeeType == "student":
             sql="select * from students where student_id=%s"
-            cur.execute(sql, (attendee_id,))
-            status= cur.fetchone()
+            data=(attendee_id)
+            status= cur.execute(sql,data)
             if status:
                 flag=1
-        if attendeeType == "TEACHER":
+
+    with conn.cursor() as cur:
+        if attendeeType == "teacher":
             sql="select * from teachers where teacher_id=%s"
-            cur.execute(sql, (attendee_id,))
-            status= cur.fetchone()
+            data=(attendee_id)
+            status= cur.execute(sql,data)
             if status:
                 flag=1
-        
-        if attendeeType == "STAFF":
-            sql="select * from staff where staff_id=%s"
-            cur.execute(sql, (attendee_id,))
-            status= cur.fetchone()
+
+    with conn.cursor() as cur:
+        if attendeeType == "staff":
+            sql="select * from staff where staff_id =%s"
+            data=(attendee_id)
+            status= cur.execute(sql,data)
             if status:
                 flag=1
-    
-  
+
     if flag==1:
-        with conn.cursor() as cur:
-            if type=="in":
-                sql="""UPDATE attendance set attendee_type=%s,attendee_id=%s,timing_in=%s where attendance_id=%s"""
-                values=(attendeeType,attendee_id,current_time,attendance_id)
-            else:
-                sql="""UPDATE attendance set attendee_type=%s,attendee_id=%s,timing_out=%s where attendance_id=%s"""
-                values=(attendeeType,attendee_id,current_time,attendance_id)
-                
-            cur.execute(sql,values)
-            conn.commit()
+        if type=="in":
+            with conn.cursor() as cur:
+                sql="""UPDATE  attendance SET attendee_type=%s,attendee_id=%s,timing_in=%s WHERE attendance_id=%s"""
+                values=(attendeeType,attendee_id,time,id)
+                cur.execute(sql,values)
+                conn.commit()
+
+        else:
+            with conn.cursor() as cur:
+                sql="""UPDATE attendance SET attendee_type=%s,attendee_id=%s,timing_out=%s  WHERE attendance_id=%s"""
+                values=(attendeeType,attendee_id,time,id)
+                cur.execute(sql,values)
+                conn.commit()
         return 1
+
+
     else:
         return 0
