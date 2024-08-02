@@ -13,7 +13,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #f0f0f0;
+            background: linear-gradient(45deg, rgba(117,117,255,1) 0%, rgba(0,212,255,1) 100%);
         }
         .container {
             width: 90%;
@@ -60,6 +60,14 @@
             background-color: #e9f5e9;
             cursor: pointer;
         }
+        a.delete {
+            border-color: red;
+            color: red;
+        }
+        a.delete:hover {
+            background-color: red;
+            color: white;
+        }
         a {
             color: #4CAF50;
             text-decoration: none;
@@ -85,12 +93,8 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
-            flex-wrap: wrap;
         }
-        .top-links a {
-            flex: 1 1 auto;
-            margin: 5px;
-        }
+        
         @media (max-width: 768px) {
             table {
                 font-size: 14px;
@@ -158,7 +162,7 @@
                 <td>{{data[8]}}</td>
                 <td>{{data[9]}}</td>
                 <td class="action-links">
-                    <a href="/delete/{{data[0]}}">Delete</a>
+                    <a href="/delete/{{data[0]}}" class="delete">Delete</a>
                     <a href="/enquiryupdate/{{data[0]}}">Update</a>
                 </td>
             </tr>

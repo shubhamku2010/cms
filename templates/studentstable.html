@@ -9,58 +9,40 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            background: linear-gradient(45deg, rgba(117,117,255,1) 0%, rgba(0,212,255,1) 100%);
         }
         .container {
             width: 90%;
             max-width: 1200px;
             margin: 20px;
             padding: 20px;
-            background: #fff;
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow-x: auto; /* Allows horizontal scrolling on smaller screens */
+            overflow-x: auto;
         }
-        .top-links {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        h2 {
+            text-align: center;
+            color: #333;
             margin-bottom: 20px;
-        }
-        .top-links a {
-            color: #fff;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            display: inline-block;
-        }
-        .top-links a:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-        }
-        .go-home {
-            background-color: #2196F3; /* Blue */
-        }
-        .go-home:hover {
-            background-color: #0b79d0; /* Darker Blue */
+            font-size: 24px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin: 0;
+            padding: 0;
+            overflow-x: auto;
         }
         th, td {
-            padding: 12px;
+            padding: 10px;
             text-align: left;
             border-bottom: 1px solid #ddd;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         th {
             background-color: #4CAF50;
@@ -76,76 +58,72 @@
         }
         tr:hover td {
             background-color: #e9f5e9;
+            cursor: pointer;
+        }
+        a.delete {
+            border-color: red;
+            color: red;
+        }
+        a.delete:hover {
+            background-color: red;
+            color: white;
+        }
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 1px solid #4CAF50;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+            text-align: center;
+        }
+        a:hover {
+            background-color: #4CAF50;
+            color: white;
+            transform: translateY(-2px);
         }
         .action-links {
             display: flex;
             gap: 10px;
-            justify-content: center;
         }
-        .action-links a {
-            display: inline-block;
-            padding: 8px 12px;
-            border-radius: 5px;
-            text-decoration: none;
-            color: #fff;
-            font-weight: bold;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            text-align: center;
+        .top-links {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
         }
-        .action-links a.delete-btn {
-            background-color: #f44336; /* Red */
-        }
-        .action-links a.delete-btn:hover {
-            background-color: #d32f2f; /* Darker Red */
-            transform: scale(1.05); /* Slightly enlarge on hover */
-        }
-        .action-links a.update-btn {
-            background-color: #4caf50; /* Green */
-        }
-        .action-links a.update-btn:hover {
-            background-color: #388e3c; /* Darker Green */
-            transform: scale(1.05); /* Slightly enlarge on hover */
-        }
-        @media (max-width: 1024px) {
-            .container {
-                padding: 15px;
-            }
-            .top-links a {
-                padding: 8px 15px;
-            }
-            table {
-                font-size: 14px;
-            }
-            th, td {
-                padding: 10px;
-            }
-        }
+        
         @media (max-width: 768px) {
             table {
-                font-size: 12px;
+                font-size: 14px;
             }
             th, td {
                 padding: 8px;
             }
+            .top-links {
+                flex-direction: column;
+                align-items: center;
+            }
             .top-links a {
-                font-size: 14px;
-                padding: 6px 12px;
+                margin: 5px 0;
+                width: 100%;
             }
         }
         @media (max-width: 480px) {
+            h2 {
+                font-size: 20px;
+            }
             table {
-                font-size: 10px;
-                width: 100%;
-                overflow-x: auto;
-                display: block;
-                white-space: nowrap;
+                font-size: 12px;
             }
             th, td {
                 padding: 6px;
             }
             .top-links a {
-                font-size: 12px;
-                padding: 6px 10px;
+                font-size: 14px;
+                padding: 8px 0;
             }
         }
     </style>
@@ -185,7 +163,7 @@
                 <td>{{data[9]}}</td>
                 <td><img src="{{data[10]}}" alt="Photo" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;"></td>
                 <td class="action-links">
-                    <a href="/delete/{{data[0]}}" class="delete-btn">Delete</a>
+                    <a href="/delete/{{data[0]}}" class="delete">Delete</a>
                     <a href="/studentsupdate/{{data[0]}}" class="update-btn">Update</a>
                 </td>
             </tr>
