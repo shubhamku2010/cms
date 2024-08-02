@@ -1,14 +1,14 @@
 from flask import Flask,redirect,url_for,render_template,request
 import pymysql
 import datetime
-from function.attendance import attendance_add
-from function.enquiry import enquiry_add
-from function.courses import courses_add
-from function.guardians import guardian_add
-from function.staff import staff_add
-from function.students import students_add
-from function.teachers import teachers_add
-from function.attendance import attendanceupdate
+from function.attendance import attendance_add,attendanceupdate
+from function.enquiry import enquiry_add,update_enquiry
+from function.courses import courses_add,update_courses
+from function.guardians import guardian_add,update_guardians
+from function.staff import staff_add,update_staff
+from function.students import students_add,update_students
+from function.teachers import teachers_add,update_teachers
+
 
 from function.delete import conn,delete
 
@@ -255,7 +255,7 @@ def  teachersdelete(param,id):
    
 
 
-@app.route("/update/<id>" ,methods=['GET','POST'])
+@app.route("/attendanceupdate/<id>" ,methods=['GET','POST'])
 def updateattendence(id):
     if request.method=='GET':
         with conn.cursor() as cur:
@@ -273,6 +273,112 @@ def updateattendence(id):
 
     else:   
         return "INVALID"
+    
+
+
+@app.route("/coursesupdate/<id>" ,methods=['GET','POST'])
+def updatecourses(id):
+    if request.method == 'GET':
+        with conn.cursor() as cur:
+            sql = "SELECT * FROM courses WHERE course_id=%s"
+            values = (id)
+            cur.execute(sql, values)
+            data = cur.fetchone()
+        return render_template("coursesupdate.html", datas=data)
+    if request.method == 'POST':
+        status = update_courses(id)
+        if status == 2:
+            return redirect("/coursestable")
+        else:
+            return "INVALID"
+        
+@app.route("/enquiryupdate/<id>" ,methods=['GET','POST'])
+def updateenquiry(id):
+    if request.method == 'GET':
+        with conn.cursor() as cur:
+            sql = "SELECT * FROM enquiry_forms WHERE form_id=%s"
+            values = (id)
+            cur.execute(sql, values)
+            data = cur.fetchone()
+        return render_template("enquiryupdate.html", datas=data)
+    if request.method == 'POST':
+        status = update_enquiry(id)
+        if status == 1:
+            return redirect("/enquirytable")
+        else:
+            return "INVALID"
+        
+
+@app.route("/guardiansupdate/<id>", methods=['GET', 'POST'])
+def updateguardians(id):
+    if request.method == 'GET':
+        with conn.cursor() as cur:
+            sql = "SELECT * FROM guardians WHERE guardian_id=%s"
+            values = (id,)
+            cur.execute(sql, values)
+            data = cur.fetchone()
+        return render_template("guardiansupdate.html", datas=data)
+    if request.method == 'POST':
+        status = update_guardians(id)
+        if status == 1:
+            return redirect("/guardianstable")
+        else:
+            return "INVALID"
+
+
+
+@app.route("/staffupdate/<id>", methods=['GET', 'POST'])
+def updatestaff(id):
+    if request.method == 'GET':
+        with conn.cursor() as cur:
+            sql = "SELECT * FROM staff WHERE staff_id=%s"
+            values = (id,)
+            cur.execute(sql, values)
+            data = cur.fetchone()
+        return render_template("staffupdate.html", datas=data)
+    if request.method == 'POST':
+        status = update_staff(id)
+        if status == 1:
+            return redirect("/stafftable")
+        else:
+            return "INVALID"
+
+@app.route("/studentsupdate/<id>", methods=['GET', 'POST'])
+def updatestudents(id):
+    if request.method == 'GET':
+        with conn.cursor() as cur:
+            sql = "SELECT * FROM students WHERE student_id=%s"
+            values = (id,)
+            cur.execute(sql, values)
+            data = cur.fetchone()
+        return render_template("studentsupdate.html", datas=data)
+    if request.method == 'POST':
+        status = update_students(id)
+        if status == 1:
+            return redirect("/studentstable")
+        else:
+            return "INVALID"
+
+
+
+@app.route("/teachersupdate/<id>", methods=['GET', 'POST'])
+def updateteachers(id):
+    if request.method == 'GET':
+        with conn.cursor() as cur:
+            sql = "SELECT * FROM teachers WHERE teacher_id=%s"
+            values = (id,)
+            cur.execute(sql, values)
+            data = cur.fetchone()
+        return render_template("teachersupdate.html", datas=data)
+    if request.method == 'POST':
+        status = update_teachers(id)
+        if status == 1:
+            return redirect("/teacherstable")
+        else:
+            return "INVALID"
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

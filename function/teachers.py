@@ -30,3 +30,28 @@ def teachers_add(request):
         conn.commit()
 
         return 1
+    
+
+def update_teachers(id):
+    firstName=request.form.get("first_name")
+    lastName=request.form.get("last_name")
+    fatherName=request.form.get("father_name")
+    motherName=request.form.get("mother_name")
+    dob=request.form.get("dob")
+    address=request.form.get("address")
+    salary=request.form.get('salary')
+    qualification=request.form.get('qualification')
+    timing=request.form.get('timing')
+    course=request.form.get('course')
+    dateOfJoining=request.form.get('date_of_joining')
+    
+
+    
+
+    with conn.cursor() as cur:
+        sql="UPDATE teachers SET first_name=%s,last_name=%s,father_name=%s,mother_name=%s,dob=%s,address=%s,salary=%s,qualification=%s,timing=%s,course=%s,date_of_joining=%s WHERE teacher_id=%s"
+        value = (firstName,lastName,fatherName,motherName,dob,address,salary,qualification,timing,course,dateOfJoining,id)
+        cur.execute(sql,value)
+        conn.commit()
+
+        return 1

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            overflow-y: auto; /* Enable vertical scroll */
+            max-height: 80vh; /* Set maximum height for scroll */
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="date"],
+        textarea {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Staff</h2>
+        <form action="/staffupdate/{{datas[0]}}" method="post">
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="first_name" value="{{datas[1]}}" required>
+
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" value="{{datas[2]}}" required>
+
+            <label for="father_name">Father's Name:</label>
+            <input type="text" id="father_name" name="father_name" value="{{datas[3]}}" required>
+
+            <label for="mother_name">Mother's Name:</label>
+            <input type="text" id="mother_name" name="mother_name" value="{{datas[4]}}" required>
+
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" value="{{datas[5]}}" required>
+
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" rows="3" value="{{datas[6]}}" required></textarea>
+
+            <label for="qualification">Qualification:</label>
+            <input type="text" id="qualification" name="qualification" value="{{datas[7]}}" required>
+
+            <label for="timing">Timing:</label>
+            <input type="text" id="timing" name="timing" value="{{datas[8]}}" required>
+
+            <label for="course">Course:</label>
+            <input type="text" id="course" name="course" value="{{datas[9]}}" required>
+
+            <label for="date_of_joining">Date of Joining:</label>
+            <input type="date" id="date_of_joining" name="date_of_joining" value="{{datas[10]}}" required>
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>
