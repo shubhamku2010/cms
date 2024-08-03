@@ -1,10 +1,16 @@
-from flask import redirect,render_template,request
+from flask import Blueprint,render_template,redirect,request
+from function.delete import delete
 import pymysql
 import datetime
 
 
 
 conn = pymysql.connect(host="localhost" , user='root' , password='' , database='cms')
+
+update4 = Blueprint('update_guardians',__name__)
+
+        
+
 
 def guardian_add(req):
     student_id=req.form.get("student_id")
@@ -57,3 +63,29 @@ def update_guardians(id):
         return 1
     else:
         return 0
+    
+
+
+@update4.route("/guardiansupdate/<id>", methods=['GET', 'POST'])
+def updateguardians(id):
+    if request.method == 'GET':
+        with conn.cursor() as cur:
+            sql = "SELECT * FROM guardians WHERE guardian_id=%s"
+            values = (id,)
+            cur.execute(sql, values)
+            data = cur.fetchone()
+        return render_template("guardiansupdate.html", datas=data)
+    if request.method == 'POST':
+        status = update_guardians(id)
+        if status == 1:
+            return redirect("/guardianstable")
+        else:
+            return "INVALID"
+
+
+
+@update4.route("/guardianstable/<param>/<id>")
+def  guardiansdelete(param,id):
+   if param=="delete":
+        delete("enquiry", "form_id", id)
+        return redirect("/guardianstable")

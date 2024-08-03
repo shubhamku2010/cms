@@ -1,21 +1,31 @@
 from flask import Flask,redirect,url_for,render_template,request
 import pymysql
 import datetime
-from function.attendance import attendance_add,attendanceupdate
-from function.enquiry import enquiry_add,update_enquiry
-from function.courses import courses_add,update_courses
-from function.guardians import guardian_add,update_guardians
-from function.staff import staff_add,update_staff
-from function.students import students_add,update_students
-from function.teachers import teachers_add,update_teachers
+from function.attendance import attendance_add,update1
+from function.courses import courses_add,update2
+from function.enquiry import enquiry_add,update3
+from function.guardians import guardian_add,update4
+from function.staff import staff_add,update5
+from function.students import students_add,update6
+from function.teachers import teachers_add,update7
 
 
-from function.delete import conn,delete
 
 conn = pymysql.connect(host="localhost" , user='root' , password='' , database='cms')
 
 
 app=Flask(__name__)
+app.register_blueprint(update1)
+app.register_blueprint(update2)
+app.register_blueprint(update3)
+app.register_blueprint(update4)
+app.register_blueprint(update5)
+app.register_blueprint(update6)
+app.register_blueprint(update7)
+
+
+
+
 
 @app.route('/')
 def base():
@@ -204,179 +214,6 @@ def teacherstable():
         cur.execute(sql)
         data = cur.fetchall()
     return render_template("teacherstable.html" , datas=data)
-
-
-@app.route("/attendancetable/<param>/<id>")
-def attendancedelete(param, id):
-    if param=="delete":
-        delete("attendance", "attendance_id ", id)
-        return redirect("/attendancetable")
-    
-
-
-    
-
-@app.route("/coursestable/<param>/<id>")
-def  coursesdelete(param,id):
-   if param=="delete":
-        delete("courses", "course_id ", id)
-        return redirect("/coursestable")
-    
-
-@app.route("/enquirytable/<param>/<id>")
-def  enquirydelete(param,id):
-   if param=="delete":
-        delete("enquiry", "form_id", id)
-        return redirect("/enquirytable")
-
-@app.route("/guardianstable/<param>/<id>")
-def  guardiansdelete(param,id):
-   if param=="delete":
-        delete("enquiry", "form_id", id)
-        return redirect("/guardianstable")
-
-@app.route("/stafftable/<param>/<id>")
-def  staffdelete(param,id):
-   if param=="delete":
-        delete("enquiry", "form_id", id)
-        return redirect("/stafftable")
-
-@app.route("/studentstable/<param>/<id>")
-def  studentsdelete(param,id):
-   if param=="delete":
-        delete("enquiry", "form_id", id)
-        return redirect("/studentstable")
-
-@app.route("/teacherstable/<param>/<id>")
-def  teachersdelete(param,id):
-   if param=="delete":
-        delete("enquiry", "form_id", id)
-        return redirect("/teacherstable")
-   
-
-
-@app.route("/attendanceupdate/<id>" ,methods=['GET','POST'])
-def updateattendence(id):
-    if request.method=='GET':
-        with conn.cursor() as cur:
-            sql="select * from attendance where attendance_id=%s"
-            values=(id)
-            cur.execute(sql,values)
-            data=cur.fetchone()
-        return render_template("attendanceupdate.html",datas=data)
-       
-    status=attendanceupdate(id)
-    if status==1:
-               
-        return redirect("/attendancetable") 
-    
-
-    else:   
-        return "INVALID"
-    
-
-
-@app.route("/coursesupdate/<id>" ,methods=['GET','POST'])
-def updatecourses(id):
-    if request.method == 'GET':
-        with conn.cursor() as cur:
-            sql = "SELECT * FROM courses WHERE course_id=%s"
-            values = (id)
-            cur.execute(sql, values)
-            data = cur.fetchone()
-        return render_template("coursesupdate.html", datas=data)
-    if request.method == 'POST':
-        status = update_courses(id)
-        if status == 2:
-            return redirect("/coursestable")
-        else:
-            return "INVALID"
-        
-@app.route("/enquiryupdate/<id>" ,methods=['GET','POST'])
-def updateenquiry(id):
-    if request.method == 'GET':
-        with conn.cursor() as cur:
-            sql = "SELECT * FROM enquiry_forms WHERE form_id=%s"
-            values = (id)
-            cur.execute(sql, values)
-            data = cur.fetchone()
-        return render_template("enquiryupdate.html", datas=data)
-    if request.method == 'POST':
-        status = update_enquiry(id)
-        if status == 1:
-            return redirect("/enquirytable")
-        else:
-            return "INVALID"
-        
-
-@app.route("/guardiansupdate/<id>", methods=['GET', 'POST'])
-def updateguardians(id):
-    if request.method == 'GET':
-        with conn.cursor() as cur:
-            sql = "SELECT * FROM guardians WHERE guardian_id=%s"
-            values = (id,)
-            cur.execute(sql, values)
-            data = cur.fetchone()
-        return render_template("guardiansupdate.html", datas=data)
-    if request.method == 'POST':
-        status = update_guardians(id)
-        if status == 1:
-            return redirect("/guardianstable")
-        else:
-            return "INVALID"
-
-
-
-@app.route("/staffupdate/<id>", methods=['GET', 'POST'])
-def updatestaff(id):
-    if request.method == 'GET':
-        with conn.cursor() as cur:
-            sql = "SELECT * FROM staff WHERE staff_id=%s"
-            values = (id,)
-            cur.execute(sql, values)
-            data = cur.fetchone()
-        return render_template("staffupdate.html", datas=data)
-    if request.method == 'POST':
-        status = update_staff(id)
-        if status == 1:
-            return redirect("/stafftable")
-        else:
-            return "INVALID"
-
-@app.route("/studentsupdate/<id>", methods=['GET', 'POST'])
-def updatestudents(id):
-    if request.method == 'GET':
-        with conn.cursor() as cur:
-            sql = "SELECT * FROM students WHERE student_id=%s"
-            values = (id,)
-            cur.execute(sql, values)
-            data = cur.fetchone()
-        return render_template("studentsupdate.html", datas=data)
-    if request.method == 'POST':
-        status = update_students(id)
-        if status == 1:
-            return redirect("/studentstable")
-        else:
-            return "INVALID"
-
-
-
-@app.route("/teachersupdate/<id>", methods=['GET', 'POST'])
-def updateteachers(id):
-    if request.method == 'GET':
-        with conn.cursor() as cur:
-            sql = "SELECT * FROM teachers WHERE teacher_id=%s"
-            values = (id,)
-            cur.execute(sql, values)
-            data = cur.fetchone()
-        return render_template("teachersupdate.html", datas=data)
-    if request.method == 'POST':
-        status = update_teachers(id)
-        if status == 1:
-            return redirect("/teacherstable")
-        else:
-            return "INVALID"
-
 
 
 
