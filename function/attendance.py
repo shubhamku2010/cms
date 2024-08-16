@@ -1,16 +1,10 @@
-from flask import Blueprint,render_template,redirect,request
-from function.delete import delete
+from flask import redirect,render_template,request
 import pymysql
 import datetime
 
 
 
 conn = pymysql.connect(host="localhost" , user='root' , password='' , database='cms')
-
-update1 = Blueprint('update_attendance',__name__)
-
-
-
 
 def attendance_add(req):
     attendeeType=req.form.get("attendee_type")
@@ -123,29 +117,3 @@ def attendanceupdate(id):
     
 
 
-@update1.route("/attendanceupdate/<id>" ,methods=['GET','POST'])
-def updateattendence(id):
-    if request.method=='GET':
-        with conn.cursor() as cur:
-            sql="select * from attendance where attendance_id=%s"
-            values=(id)
-            cur.execute(sql,values)
-            data=cur.fetchone()
-        return render_template("attendanceupdate.html",datas=data)
-       
-    status=attendanceupdate(id)
-    if status==1:
-               
-        return redirect("/attendancetable") 
-    
-
-    else:   
-        return "INVALID"
-
-
-
-@update1.route("/attendancetable/<param>/<id>")
-def attendancedelete(param, id):
-    if param=="delete":
-        delete("attendance", "attendance_id ", id)
-        return redirect("/attendancetable")

@@ -1,13 +1,20 @@
 from flask import Flask,redirect,url_for,render_template,request
 import pymysql
 import datetime
-from function.attendance import attendance_add,update1
-from function.courses import courses_add,update2
-from function.enquiry import enquiry_add,update3
-from function.guardians import guardian_add,update4
-from function.staff import staff_add,update5
-from function.students import students_add,update6
-from function.teachers import teachers_add,update7
+from function.attendance import attendance_add
+from function.enquiry import enquiry_add
+from function.courses import courses_add
+from function.guardians import guardian_add
+from function.staff import staff_add
+from function.students import students_add
+from function.teachers import teachers_add
+from attendance_data import attendance
+from course_data import course
+from enquiry_data import enquiry
+from guardians_data import guardians
+from staff_data import staff
+from students_data import students
+from teachers_data import teachers
 
 
 
@@ -15,13 +22,13 @@ conn = pymysql.connect(host="localhost" , user='root' , password='' , database='
 
 
 app=Flask(__name__)
-app.register_blueprint(update1)
-app.register_blueprint(update2)
-app.register_blueprint(update3)
-app.register_blueprint(update4)
-app.register_blueprint(update5)
-app.register_blueprint(update6)
-app.register_blueprint(update7)
+app.register_blueprint(attendance)
+app.register_blueprint(course)
+app.register_blueprint(enquiry)
+app.register_blueprint(guardians)
+app.register_blueprint(staff)
+app.register_blueprint(students)
+app.register_blueprint(teachers)
 
 
 

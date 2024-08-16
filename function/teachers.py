@@ -1,15 +1,10 @@
-from flask import Blueprint,render_template,redirect,request
-from function.delete import delete
+from flask import redirect,render_template,request
 import pymysql
 import datetime
 
 
 
 conn = pymysql.connect(host="localhost" , user='root' , password='' , database='cms')
-
-update7 = Blueprint('update_teachers',__name__)
-
-
 
 def teachers_add(request):
     teacherId=request.form.get("teacher_id")
@@ -62,25 +57,3 @@ def update_teachers(id):
         return 1
     
 
-@update7.route("/teachersupdate/<id>", methods=['GET', 'POST'])
-def updateteachers(id):
-    if request.method == 'GET':
-        with conn.cursor() as cur:
-            sql = "SELECT * FROM teachers WHERE teacher_id=%s"
-            values = (id,)
-            cur.execute(sql, values)
-            data = cur.fetchone()
-        return render_template("teachersupdate.html", datas=data)
-    if request.method == 'POST':
-        status = update_teachers(id)
-        if status == 1:
-            return redirect("/teacherstable")
-        else:
-            return "INVALID"
-
-
-@update7.route("/teacherstable/<param>/<id>")
-def  teachersdelete(param,id):
-   if param=="delete":
-        delete("enquiry", "form_id", id)
-        return redirect("/teacherstable")
